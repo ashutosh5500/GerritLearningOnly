@@ -29,20 +29,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 
-@OptIn(DelicateCoroutinesApi::class)
-private fun producesSharedFlow(): StateFlow<Int> {
-    val testList = listOf(1, 2, 3, 7, 8)
-    val sharedFlow = MutableStateFlow<Int>(10)
 
-    GlobalScope.launch {
-        testList.forEach {
-            Log.d("FLOWS EX->", "EMITTING-> $it")
-            sharedFlow.emit(it)
-            delay(1000)
-        }
-    }
-    return sharedFlow
-}
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,14 +41,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        GlobalScope.launch(Dispatchers.Main) {
-            val result = producesSharedFlow()
-            Log.d("FLOWS EX->", "VALUE->: ${result.value}")
-            delay(6000)
-            result.collect {
-                Log.d("FLOWS EX->", "RES->: $it")
-            }
-        }
+
 
         mfusedLocationProvider = LocationServices.getFusedLocationProviderClient(this)
 
